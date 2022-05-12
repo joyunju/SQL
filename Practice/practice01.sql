@@ -149,3 +149,44 @@ FROM
     departments
 ORDER BY
     length(department_name) DESC;
+    
+/*문제9.
+정확하지 않지만, 지사가 있을 것으로 예상되는 나라들을
+나라이름을 대문자로 출력하고
+올림차순(ASC)으로 정렬해 보세오.*/
+
+-- 처리 방법
+-- form : countries
+-- 정렬 : ORDER BY country_name 올림차순(ASC)
+-- 조건 : WHERE region_id
+-- 출력 : 나라이름(country_name)을 대문자 UPPER(s)로 출력
+
+SELECT
+    upper(country_name) "나라이름"
+FROM
+    countries
+ORDER BY
+    country_name ASC;
+    
+/*문제10.
+입사일이 03/12/31 일 이전 입사한
+직원의 이름, 월급, 전화 번호, 입사일을 출력하세요
+※ 전화번호는 545-343-3433 과 같은 형태로 출력하시오.*/
+
+-- 처리 방법
+-- form : employees
+-- 조건 : 입사일(hire_date)이 03/12/31 일 이전 입사
+-- 정렬 : 
+-- 출력 : 직원의 이름, 월급, 전화 번호, 입사일 출력 ※ 전화번호는 545-343-3433 과 같은 형태로 출력
+-- replace(s, p, r) : 문자열 치환, s속의 p문자열을 r로 치환
+
+SELECT
+    first_name || ' ' ||last_name   "직원의 이름",
+    salary "월급",
+    --phone_number "전화번호",
+    replace(phone_number, '.', '-') "전화번호",
+    hire_date "입사일"
+FROM
+    employees
+WHERE
+    hire_date < '03/12/31';
