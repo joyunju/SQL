@@ -68,3 +68,53 @@ WHERE
     max_salary >= 10000
 ORDER BY
     max_salary DESC;
+    
+/*문제5.
+월급이 14000 미만 10000 이상인
+직원의 이름(first_name), 월급, 커미션퍼센트를
+월급순(내림차순) 출력하세오.
+단 커미션퍼센트 가 null 이면 0 으로 나타내시오*/
+
+-- 처리방법 
+-- form : employees 테이블
+-- 조건 : WHERE 월급이 14000 미만 10000 이상
+-- 정렬 : ORDER BY 월급 내림차순(DESC)
+-- 출력 : 직원의 이름(first_name), 월급, 커미션퍼센트 출력 / 단 커미션퍼센트 가 null 이면 0으로 출력
+
+SELECT
+    first_name     "직원의 이름",
+    salary         "월급",
+    --commission_pct "커미션퍼센트",
+    nvl(commission_pct, 0)
+FROM
+    employees
+WHERE
+        salary < 14000
+    AND salary >= 10000
+ORDER BY
+    salary DESC;
+
+/*문제6.
+부서번호가 10, 90, 100 인
+직원의 이름, 월급, 입사일, 부서번호를 나타내시오
+입사일은 1977-12 와 같이 표시하시오*/
+
+-- 처리 방법
+-- form : employees
+-- WHERE 부서번호가 10, 90, 100 인
+-- 출력 : 직원의 이름, 월급, 입사일, 부서번호
+-- hire_date : 1977-12 와 같이 표시
+
+SELECT
+    first_name || ' ' ||last_name   "직원의 이름",
+    salary "월급",
+    --hire_date "입사일",
+    to_char(hire_date, 'YYYY-MM') "입사일",
+    department_id "부서번호"
+    FROM
+    employees
+WHERE
+    department_id IN ( 10, 90, 100 );
+    
+/*문제7.
+이름(first_name)에 S 또는 s 가 들어가는 직원의 이름, 월급을 나타내시오*/
