@@ -117,4 +117,35 @@ WHERE
     department_id IN ( 10, 90, 100 );
     
 /*문제7.
-이름(first_name)에 S 또는 s 가 들어가는 직원의 이름, 월급을 나타내시오*/
+이름(first_name)에 S 또는 s 가 들어가는
+직원의 이름, 월급을 나타내시오*/
+
+-- 처리 방법
+-- form : employees
+-- WHERE 이름(first_name)에 S 또는 s 가 들어가는 -> like
+-- 출력 : 직원의 이름, 월급
+
+SELECT
+    first_name || ' ' ||last_name   "직원의 이름",
+    salary "월급"
+FROM
+    employees
+WHERE
+    first_name LIKE '%S%'
+    OR first_name LIKE '%s%';
+
+/*문제8.
+전체 부서를 출력하려고 합니다.
+순서는 부서이름이 긴 순서대로 출력해 보세요.*/
+
+-- 처리 방법
+-- form : departments
+-- 정렬 : ORDER BY 부서이름이 긴 순서대로 order by length(필드이름) (DESC)
+-- 출력 : 전체 부서 *
+
+SELECT
+    * 
+FROM
+    departments
+ORDER BY
+    length(department_name) DESC;
