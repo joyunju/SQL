@@ -551,3 +551,17 @@ SELECT
     to_char(sysdate, 'SS')
 FROM
     dual;
+    
+-- >> 단일행 함수
+-- 일반함수>NVL(컬럼명, null일때값)/NVL2(컬럼명, null아닐때값, null일때 값)
+-- NVL(조사할 컬럼, NULL 일 경우 치환할 값)
+-- NVL2(조사할 컬럼, NULL이 아닐때 치환할 값, NULL일때 치환할 값)
+SELECT
+    first_name,
+    commission_pct,
+    nvl(commission_pct, 0),
+    -- 평균같이 계산에 참여해야할 경우 null을 0으로 변경해준다
+    nvl2(commission_pct, 100, 0) -- null이 아닐때
+FROM
+    employees;
+    
