@@ -14,3 +14,21 @@ SELECT
     -- ,COUNT(commission_pct) --null 제외
 FROM
     employees;
+
+/*문제2.
+직원중에 최고임금(salary)과 최저임금을 “최고임금, “최저임금”프로젝션 타이틀로 함께 출력해 보세요. 
+두 임금의 차이는 얼마인가요?
+“최고임금 – 최저임금”이란 타이틀로 함께 출력해 보세요.*/
+
+ -- 처리방법
+ -- FROM : employees
+ -- 출력 : max() / min()
+ -- salary "최고임금", salary "최저임금", “최고임금 – 최저임금”
+ 
+SELECT
+    --COUNT(*),
+    MAX(salary) "최고임금",
+    MIN(salary) "최저임금",
+    MAX(salary)-MIN(salary) "최고임금 – 최저임금"
+FROM
+    employees;
