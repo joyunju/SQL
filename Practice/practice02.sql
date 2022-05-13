@@ -32,3 +32,19 @@ SELECT
     MAX(salary)-MIN(salary) "최고임금 – 최저임금"
 FROM
     employees;
+
+/*
+문제3.
+마지막으로 신입사원이 들어온 날은 언제 입니까? 
+다음 형식으로 출력해주세요.
+예) 2014년 07월 10일*/
+
+ -- 처리방법
+ -- FROM : employees
+ -- 출력 : to_char(hire_date, 'YYYY년MM월DD일')
+
+SELECT
+    -- hire_date,
+    to_char(hire_date, 'YYYY"년"MM"월"DD"일"')
+FROM
+    employees;
