@@ -48,3 +48,28 @@ SELECT
     to_char(hire_date, 'YYYY"년"MM"월"DD"일"')
 FROM
     employees;
+
+/*문제4.
+부서별로 평균임금, 최고임금, 최저임금을 부서아이디(department_id)와 함께 출력합니다.
+정렬순서는 부서번호(department_id) 내림차순입니다.*/
+
+-- 처리방법
+-- from : employees
+-- 정렬 : 부서번호(department_id) 내림차순 DESC
+-- 출력 : 부서별로 평균임금, 최고임금, 최저임금을 부서아이디(department_id)와 함께 출력
+-- avg(nvl(salary,0))/ avg(salary), max(salary), min(salary), department_id
+-- 그룹함수 :  department_id
+
+SELECT
+    --de.department_name     "부서명",
+    --round(AVG(salary), 0) "평균임금", -- 평균 반올림 
+    AVG(nvl(salary, 0)) "평균임금",
+    MAX(salary)         "최고임금",
+    MIN(salary)         "최저임금",
+    department_id       "부서아이디"
+FROM
+    employees em
+GROUP BY
+    department_id
+ORDER BY
+    department_id DESC;
