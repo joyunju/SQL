@@ -66,6 +66,30 @@ ORDER BY
 문제2에서 부서가 없는 Kimberely(사번 178)까지 표시해 보세요
 (107건)*/
 
+-- ■ 처리방법
+-- from : employees, departments, jobs
+-- WHERE : em.department_id = de.department_id and em.department_id = jo.job_id
+-- ㄴ NULL이 올 수 있는 쪽 조건에 (+)를 붙인다.
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : employee_id "직원들의 사번", firt_name "이름", salary "급여", department_name "부서명", jobs.job_title "현재업무"
+-- ORDER BY / 정렬 : employee_id 오름차순 ASC
+
+SELECT
+    em.employee_id     "직원들의 사번",
+    em.first_name      "이름",
+    em.salary          "급여",
+    de.department_name "부서명",
+    jo.job_title       "현재업무"
+FROM
+    employees   em,
+    departments de,
+    jobs        jo
+WHERE
+        em.department_id = de.department_id (+)
+    AND em.job_id = jo.job_id
+ORDER BY
+    em.employee_id ASC;
 
 
 /*문제3.
