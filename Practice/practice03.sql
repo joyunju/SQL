@@ -139,22 +139,78 @@ ORDER BY
     loc.location_id ASC;
 
 /*문제4.
-지역(regions)에 속한 나라들을 지역이름(region_name), 나라이름(country_name)으로 출력하
-되 지역이름(오름차순), 나라이름(내림차순) 으로 정렬하세요.
+지역(regions)에 속한 나라들을 
+지역이름(region_name), 나라이름(country_name)으로 출력하되
+지역이름(오름차순), 나라이름(내림차순) 으로 정렬하세요.
 (25건)*/
 
+-- ■ 처리방법
+-- from : countries, regions 
+-- WHERE : countries.country_id = regions.region_id
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : region_name "지역이름", country_name "나라이름"
+-- ORDER BY / 정렬 : region_name ASC, country_name DESC
+
+SELECT
+    re.region_name  "지역이름",
+    co.country_name "나라이름"
+FROM
+    countries co,
+    regions re
+WHERE
+    co.region_id = re.region_id
+ORDER BY
+    region_name ASC,
+    country_name DESC;
+    
 /*문제5.
 자신의 매니저보다 채용일(hire_date)이 빠른 사원의
-사번(employee_id), 이름(first_name)과 채용일(hire_date), 매니저이름(first_name), 매니저입
-사일(hire_date)을 조회하세요.
+사번(employee_id), 이름(first_name)과 채용일(hire_date), 매니저이름(first_name), 매니저입사일(hire_date)을 조회하세요.
 (37건)*/
+
+-- ■ 처리방법
+-- from : 
+-- WHERE : 
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : employee_id "사번", first_name "이름, hire_date "채용일", first_name "매니저이름", hire_date "매니저입사일"
+-- ORDER BY / 정렬 : 
+
+
 
 /*문제6.
 나라별로 어떠한 부서들이 위치하고 있는지 파악하려고 합니다.
-나라명, 나라아이디, 도시명, 도시아이디, 부서명, 부서아이디를 나라명(오름차순)로 정렬하여
-출력하세요.
+나라명, 나라아이디, 도시명, 도시아이디, 부서명, 부서아이디를
+나라명(오름차순)로 정렬하여 출력하세요.
 값이 없는 경우 표시하지 않습니다.
 (27건)*/
+
+-- ■ 처리방법
+-- from : departments, loactions, countries
+-- WHERE : 
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : country_name "나라명", country_id "나라아이디", city "도시명", loaction_id "도시아이디", department_name "부서명", department_id "부서아이디"
+-- ORDER BY / 정렬 : country_name ASC
+
+SELECT
+    co.country_name    "나라명",
+    co.country_id      "나라아이디",
+    lo.city            "도시명",
+    lo.location_id    "도시아이디",
+    de.department_name "부서명",
+    de.department_id   "부서아이디"
+FROM
+    departments de,
+    locations   lo,
+    countries   co
+WHERE
+        de.location_id = lo.location_id
+    AND lo.country_id = co.country_id
+ORDER BY
+    co.country_name ASC;
+
 
 /*문제7.
 job_history 테이블은 과거의 담당업무의 데이터를 가지고 있다.
