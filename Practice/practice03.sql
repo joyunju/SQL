@@ -242,10 +242,38 @@ WHERE
 
 
 /*문제8.
-각 부서(department)에 대해서 부서번호(department_id), 부서이름(department_name),
+각 부서(department)에 대해서
+부서번호(department_id), 부서이름(department_name),
 매니저(manager)의 이름(first_name), 위치(locations)한 도시(city), 나라(countries)의 이름
 (countries_name) 그리고 지역구분(regions)의 이름(resion_name)까지 전부 출력해 보세요.
 (11건)*/
+
+-- ■ 처리방법
+-- from : employees
+-- WHERE : 테이블 연결 and 
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : 사원의 사번, 이름(풀네임), 업무아이디, 시작일, 종료일을 출력
+-- ORDER BY / 정렬 : 
+
+SELECT
+    de.department_id   "부서번호",
+    de.department_name  "부서이름",
+    em.first_name       "매니저이름",
+    lo.city       "위치한 도시",
+    co.country_name   "나라이름",
+    re.region_name     "지역이름"
+FROM
+    employees   em,
+    departments de,
+    locations   lo,
+    countries   co,
+    regions     re
+WHERE
+        em.employee_id = de.manager_id
+    AND de.location_id = lo.location_id
+    AND lo.country_id = co.country_id
+    AND co.region_id = re.region_id;
 
 
 
