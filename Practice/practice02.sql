@@ -174,3 +174,46 @@ GROUP BY
     job_id
 ORDER BY
     MAX(salary) - MIN(salary) DESC;
+
+/*문제9
+2005년 이후 입사자 중
+관리자별로 평균급여 최소급여 최대급여를 알아보려고 한다.
+출력은 관리자별로 평균급여가 5000이상 중에
+평균급여 최소급여 최대급여를 출력합니다.
+평균급여의 내림차순으로 정렬하고
+평균급여는 소수점 첫째짜리에서 반올림 하여 출력합니다.*/
+
+-- ■ 처리방법
+-- from : employees
+-- WHERE : 2005년 이후 입사자 hire_date >= '2005 / 01 / 01'
+-- GROUP BY : manager_id
+-- having : 관리자별로 평균급여가 5000이상 / AVG(salary) >= 5000
+-- SELECT / 출력 : round(AVG(salary), 1) / AVG(salary) "평균급여", MIN(salary) "최소급여", MAX(salary) "최대급여"
+-- ORDER BY / 정렬 : (최고임금 – 최저임금)의 내림차순 DESC
+
+SELECT
+    round(AVG(salary), 0) "평균급여", -- 소수점 첫째짜리에서 반올림
+    MIN(salary)           "최소급여",
+    MAX(salary)           "최대급여"
+FROM
+    employees
+WHERE
+    hire_date >= '2005 / 01 / 01'
+GROUP BY
+    manager_id
+HAVING
+    AVG(salary) >= 5000
+ORDER BY
+    AVG(salary) DESC;
+
+
+
+/*문제10
+아래회사는 보너스 지급을 위해 직원을 입사일 기준으로 나눌려고 합니다.
+입사일이 02/12/31일 이전이면 '창립맴버, 03년은 '03년입사’, 04년은 ‘04년입사’
+이후입사자는 ‘상장이후입사’ optDate 컬럼의 데이터로 출력하세요.
+정렬은 입사일로 오름차순으로 정렬합니다.*/
+
+
+    
+
