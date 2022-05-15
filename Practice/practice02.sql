@@ -207,13 +207,49 @@ ORDER BY
     AVG(salary) DESC;
 
 
-
 /*문제10
 아래회사는 보너스 지급을 위해 직원을 입사일 기준으로 나눌려고 합니다.
-입사일이 02/12/31일 이전이면 '창립맴버, 03년은 '03년입사’, 04년은 ‘04년입사’
-이후입사자는 ‘상장이후입사’ optDate 컬럼의 데이터로 출력하세요.
+** case-end 문
+입사일이 02/12/31일 이전이면 '창립맴버,
+03년은 '03년입사’,
+04년은 ‘04년입사’
+이후입사자는 ‘상장이후입사’
+optDate 컬럼의 데이터로 출력하세요.
 정렬은 입사일로 오름차순으로 정렬합니다.*/
 
 
-    
+-- ■ 처리방법
+-- from : employees
+-- WHERE : 
+-- GROUP BY : hire_date
+-- having : 
+-- SELECT / 출력 : hire_date
+-- CASE ~ END : 
+WHEN hire_date < '02/12/31' THEN '창립맴버'
+WHEN hire_date < '03/12/31' THEN '03년입사'
+WHEN hire_date < '04/12/31' THEN '04년입사'
+else '상장이후입사'
+end "optDate"
+-- ORDER BY / 정렬 : 입사일 hire_date로 오름차순 asc  
 
+SELECT
+    first_name||' '||last_name "직원",
+    hire_date "입사일",
+    CASE
+        WHEN hire_date < '02/12/31' THEN
+            '창립맴버'
+        WHEN hire_date < '03/12/31' THEN
+            '03년입사'
+        WHEN hire_date < '04/12/31' THEN
+            '04년입사'
+        ELSE
+            '상장이후입사'
+    END "optDate"
+FROM
+    employees
+ORDER BY
+    hire_date ASC;
+    
+    
+    
+    
