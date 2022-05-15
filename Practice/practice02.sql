@@ -125,3 +125,31 @@ FROM
 ORDER BY hire_date ASC
     */
     
+
+/*문제7.
+평균임금과 최저임금의 차이가 2000 미만인
+부서(department_id), 평균임금, 최저임금 그리고 (평균임금 – 최저임금)를
+(평균임금 – 최저임금)의 내림차순으로 정렬해서 출력하세요.*/
+
+-- 처리방법
+-- from : employees
+-- GROUP BY : department_id
+-- HAVING : AVG(salary) - MIN(salary) < 2000
+-- SELECT / 출력 : 부서(department_id), 평균임금, 최저임금, AVG(salary) - MIN(salary) "평균임금 – 최저임금"
+-- ORDER BY / 정렬 : (평균임금 – 최저임금)의 내림차순 DESC
+
+SELECT
+    department_id             "부서",
+    round(AVG(salary), 0)     "평균임금",  -- 소주점 반올림
+    --AVG(salary)               "평균임금",
+    MIN(salary)               "최저임금",
+    AVG(salary) - MIN(salary) "평균임금 – 최저임금"
+    -- round(AVG(salary) - MIN(salary), 1) "평균임금 – 최저임금"
+FROM
+    employees
+GROUP BY
+    department_id
+HAVING
+    AVG(salary) - MIN(salary) < 2000
+ORDER BY
+    AVG(salary) - MIN(salary) DESC;
