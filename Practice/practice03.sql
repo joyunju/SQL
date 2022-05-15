@@ -125,6 +125,19 @@ ORDER BY
 문제3에서 부서가 없는 도시도 표시합니다.
 (43건)*/
 
+SELECT
+    loc.location_id    "도시아이디",
+    loc.city           "도시명",
+    de.department_name "부서명",
+    de.department_id   "부서아이디"
+FROM
+    departments de,
+    locations   loc
+WHERE
+    de.location_id (+) = loc.location_id
+ORDER BY
+    loc.location_id ASC;
+
 /*문제4.
 지역(regions)에 속한 나라들을 지역이름(region_name), 나라이름(country_name)으로 출력하
 되 지역이름(오름차순), 나라이름(내림차순) 으로 정렬하세요.
