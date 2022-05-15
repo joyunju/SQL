@@ -8,7 +8,7 @@
  -- 처리방법
  -- FROM : employees
  -- 출력 : count(manager_id)
- 
+
 SELECT
     COUNT(manager_id) "haveMngCnt"
     -- ,COUNT(commission_pct) --null 제외
@@ -24,12 +24,12 @@ FROM
  -- FROM : employees
  -- 출력 : max() / min()
  -- salary "최고임금", salary "최저임금", “최고임금 – 최저임금”
- 
+
 SELECT
     --COUNT(*),
-    MAX(salary) "최고임금",
-    MIN(salary) "최저임금",
-    MAX(salary)-MIN(salary) "최고임금 – 최저임금"
+    MAX(salary)               "최고임금",
+    MIN(salary)               "최저임금",
+    MAX(salary) - MIN(salary) "최고임금 – 최저임금"
 FROM
     employees;
 
@@ -62,7 +62,8 @@ FROM
 
 SELECT
     --de.department_name     "부서명",
-    --round(AVG(salary), 0) "평균임금", -- 평균 반올림 
+    --round(AVG(salary), 0) "평균임금", -- 평균 반올림
+    --  round(avg(nvl(salary,0)),0)
     AVG(nvl(salary, 0)) "평균임금",
     MAX(salary)         "최고임금",
     MIN(salary)         "최저임금",
@@ -73,3 +74,32 @@ GROUP BY
     department_id
 ORDER BY
     department_id DESC;
+
+/*문제5.
+업무(job_id)별로 평균임금, 최고임금, 최저임금을 업무아이디(job_id)와 함께 출력하고
+정렬 순서는 최저임금 내림차순, 평균임금(소수점 반올림), 오름차순 순입니다.
+(정렬순서는 최소임금 2500 구간일때 확인해볼 것)*/
+
+-- 처리방법
+-- from : employees
+-- GROUP BY / 그룹함수 : job_id
+-- GROUP BY :  원하는 그룹별로 행들을 Grouping한다.
+-- HAVING : 원하는 조건을 만족하는 그룹만 남긴다.
+-- HAVING : 최소임금 2500 구간일때
+-- SELECT / 출력 : round(AVG(salary), 0) : 평균임금, MAX(salary) : 최고임금, MIN(salary): 최저임금 / 업무아이디(job_id)와 함께 출력
+-- ORDER BY / 정렬 : 최저임금(min_salary) 내림차순 DESC, round(AVG(salary), 0) "평균임금", -- 평균 반올림 asc
+
+SELECT
+    round(AVG(salary), 0) "평균임금",  -- 소주점 반올림
+    MAX(salary)           "최고임금",
+    MIN(salary)           "최저임금",
+    job_id                "업무아이디"
+FROM
+    employees
+GROUP BY
+    job_id
+-- HAVING MIN(salary) >= 2500
+ORDER BY
+    MIN(salary) DESC,
+    round(AVG(salary), 0) ASC;
+    
