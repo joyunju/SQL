@@ -1,11 +1,33 @@
 -- ■ 테이블간 조인(JOIN) SQL 문제입니다.
+-- 0513 문제1,2,3,4,6,7,8
 
 /*문제1.
-직원들의 사번(employee_id), 이름(firt_name), 성(last_name)과 부서명(department_name)을
-조회하여 부서이름(department_name) 오름차순, 사번(employee_id) 내림차순 으로 정렬하세
-요.
+직원들의 사번(employee_id), 이름(firt_name), 성(last_name)과 부서명(department_name)을 조회하여
+부서이름(department_name) 오름차순, 사번(employee_id) 내림차순 으로 정렬하세요.
 (106건)*/
 
+-- ■ 처리방법
+-- from : employees, departments
+-- WHERE : em.department_id = de.department_id;
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 :  em.department_id, first_name, last_name, department_name
+-- ORDER BY / 정렬 : department_name 오름차순 ASC, employee_id 내림차순 DESC
+
+SELECT
+    em.department_id   "직원들의 사번",
+    em.first_name         "이름",
+    em.last_name          "성",
+    de.department_name "부서명"
+FROM
+    employees   em,
+    departments de
+WHERE
+    em.department_id = de.department_id
+ORDER BY
+    department_name ASC,
+    employee_id DESC;
+    
 
 /*문제2.
 employees 테이블의 job_id는 현재의 업무아이디를 가지고 있습니다.
