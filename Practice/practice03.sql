@@ -31,14 +31,42 @@ ORDER BY
 
 /*문제2.
 employees 테이블의 job_id는 현재의 업무아이디를 가지고 있습니다.
-직원들의 사번(employee_id), 이름(firt_name), 급여(salary), 부서명(department_name), 현
-재업무(job_title)를 사번(employee_id) 오름차순 으로 정렬하세요.
-부서가 없는 Kimberely(사번 178)은 표시하지 않습니다.
+직원들의 사번(employee_id), 이름(firt_name), 급여(salary), 부서명(department_name), 현재업무(job_title)를
+사번(employee_id) 오름차순 으로 정렬하세요.
+※ 부서가 없는 Kimberely(사번 178)은 표시하지 않습니다.
 (106건)*/
+
+-- ■ 처리방법
+-- from : employees, departments, jobs
+-- WHERE : 
+-- em.department_id = de.department_id and em.department_id = jo.job_id
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : employee_id "직원들의 사번", firt_name "이름", salary "급여", department_name "부서명", jobs.job_title "현재업무"
+-- ORDER BY / 정렬 : employee_id 오름차순 ASC
+
+SELECT
+    em.employee_id     "직원들의 사번",
+    em.first_name      "이름",
+    em.salary          "급여",
+    de.department_name "부서명",
+    jo.job_title       "현재업무"
+FROM
+    employees   em,
+    departments de,
+    jobs        jo
+WHERE
+        em.department_id = de.department_id
+    AND em.job_id = jo.job_id
+ORDER BY
+    em.employee_id ASC;
+
 
 /*문제2-1.
 문제2에서 부서가 없는 Kimberely(사번 178)까지 표시해 보세요
 (107건)*/
+
+
 
 /*문제3.
 도시별로 위치한 부서들을 파악하려고 합니다.
