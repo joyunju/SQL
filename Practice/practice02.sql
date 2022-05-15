@@ -153,3 +153,24 @@ HAVING
     AVG(salary) - MIN(salary) < 2000
 ORDER BY
     AVG(salary) - MIN(salary) DESC;
+
+
+/*문제8.
+업무(JOBS)별로
+최고임금과 최저임금의 차이를 출력해보세요.
+차이를 확인할 수 있도록 내림차순으로 정렬하세요?*/
+
+-- 처리방법
+-- from : employees
+-- GROUP BY : job_id
+-- SELECT / 출력 : MAX(salary) - MIN(salary) "최고임금 – 최저임금"
+-- ORDER BY / 정렬 : (최고임금 – 최저임금)의 내림차순 DESC
+
+SELECT
+    MAX(salary) - MIN(salary) "최고임금 – 최저임금"
+FROM
+    employees
+GROUP BY
+    job_id
+ORDER BY
+    MAX(salary) - MIN(salary) DESC;
