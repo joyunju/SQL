@@ -102,4 +102,26 @@ GROUP BY
 ORDER BY
     MIN(salary) DESC,
     round(AVG(salary), 0) ASC;
+
+
+/*문제6.
+가장 오래 근속한 직원의 입사일은 언제인가요? 다음 형식으로 출력해주세요.
+예) 2001-01-13 토요일   */ 
+
+-- 처리방법
+-- from : employees
+-- GROUP BY :  원하는 그룹별로 행들을 Grouping한다.
+-- HAVING : 원하는 조건을 만족하는 그룹만 남긴다.
+-- SELECT / 출력 : to_char(MIN(hire_date), 'YYYY-MM-DD DAY')
+-- ORDER BY / 정렬 :
+
+SELECT
+    --first_name||' '||last_name "직원이름",
+    to_char(MIN(hire_date), 'YYYY-MM-DD DAY')
+FROM
+    employees;
+/*GROUP BY
+    first_name, last_name, hire_date
+ORDER BY hire_date ASC
+    */
     
