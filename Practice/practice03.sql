@@ -191,7 +191,7 @@ ORDER BY
 -- WHERE : 
 -- GROUP BY : 
 -- having :
--- SELECT / 출력 : country_name "나라명", country_id "나라아이디", city "도시명", loaction_id "도시아이디", department_name "부서명", department_id "부서아이디"
+-- SELECT / 출력 : country_name "나라명", country_id "나라아이디", city "도시명", location_id "도시아이디", department_name "부서명", department_id "부서아이디"
 -- ORDER BY / 정렬 : country_name ASC
 
 SELECT
@@ -214,16 +214,40 @@ ORDER BY
 
 /*문제7.
 job_history 테이블은 과거의 담당업무의 데이터를 가지고 있다.
-과거의 업무아이디(job_id)가 ‘AC_ACCOUNT’로 근무한 사원의 사번, 이름(풀네임), 업무아이
-디, 시작일, 종료일을 출력하세요.
+과거의 업무아이디(job_id)가 ‘AC_ACCOUNT’로 근무한
+사원의 사번, 이름(풀네임), 업무아이디, 시작일, 종료일을 출력하세요.
 이름은 first_name과 last_name을 합쳐 출력합니다.
 (2건)*/
+
+-- ■ 처리방법
+-- from : job_history, employees
+-- WHERE : 테이블 연결 and 업무아이디(job_id)가 ‘AC_ACCOUNT’로 근무한
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : 사원의 사번, 이름(풀네임), 업무아이디, 시작일, 종료일을 출력
+-- ORDER BY / 정렬 : 
+
+SELECT
+    em.employee_id "사원의 사번",
+    first_name || ' ' || last_name AS "이름(풀네임)",
+    joh.job_id "업무아이디",
+    joh.start_date "시작일",
+    joh.end_date "종료일"
+FROM
+    job_history joh,
+    employees   em
+WHERE
+        em.employee_id = joh.employee_id
+    AND joh.job_id = 'AC_ACCOUNT';
+
 
 /*문제8.
 각 부서(department)에 대해서 부서번호(department_id), 부서이름(department_name),
 매니저(manager)의 이름(first_name), 위치(locations)한 도시(city), 나라(countries)의 이름
 (countries_name) 그리고 지역구분(regions)의 이름(resion_name)까지 전부 출력해 보세요.
 (11건)*/
+
+
 
 /*
 문제9.
