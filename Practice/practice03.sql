@@ -94,9 +94,32 @@ ORDER BY
 
 /*문제3.
 도시별로 위치한 부서들을 파악하려고 합니다.
-도시아이디, 도시명, 부서명, 부서아이디를 도시아이디(오름차순)로 정렬하여 출력하세요
+도시아이디, 도시명, 부서명, 부서아이디를
+도시아이디(오름차순)로 정렬하여 출력하세요
 부서가 없는 도시는 표시하지 않습니다.
 (27건)*/
+
+-- ■ 처리방법
+-- from : departments, locations
+-- WHERE : departments.department_id = locations.location_id
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : location_id "도시아이디", city "도시명", department_name "부서명", department_id "부서아이디"
+-- ORDER BY / 정렬 : 도시아이디 오름차순 location_id  ASC
+
+SELECT
+    loc.location_id    "도시아이디",
+    loc.city           "도시명",
+    de.department_name "부서명",
+    de.department_id   "부서아이디"
+FROM
+    departments de,
+    locations   loc
+WHERE
+    de.location_id = loc.location_id
+ORDER BY
+    loc.location_id ASC;
+    
 
 /*문제3-1.
 문제3에서 부서가 없는 도시도 표시합니다.
