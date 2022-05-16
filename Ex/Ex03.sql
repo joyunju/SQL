@@ -10,7 +10,8 @@ FROM
 SELECT
     *
 FROM
-    employees, departments;
+    employees,
+    departments;
     
 -- ■ EQUI Join
 /*106건임(107건X)
@@ -62,11 +63,11 @@ SELECT
     em.first_name,
     em.salary,
     em.department_name,
-    em.department_id   "e_did",
+    em.department_id "e_did",
     de.department_id "d_did"
 FROM
     -- 테이블명 테이블명별명
-    employees em,
+    employees   em,
     departments de
 WHERE
     em.department_id = de.department_id;
@@ -103,4 +104,127 @@ WHERE
     AND em.salary >= 7000
 ORDER BY
     em.salary ASC;
+    
+-- ■ EQUI Join 복습
+SELECT
+    em.first_name,
+    de.department_name
+FROM
+    employees   em,
+    departments de
+WHERE
+    em.department_id = de.department_id; -- 106건
+    /*em.department_id = de.department_id(+); -- null 포함 107건*/
+
+-- ■ left outer join
+-- 왼쪽 테이블의 모든 row를 결과 테이블에 나타냄
+
+SELECT
+    *
+FROM
+    employees   em
+    LEFT OUTER JOIN departments de ON e.department_id = d.department_id;
+
+-- 기존 EQUI Join 방식  --> 106건
+SELECT
+    em.department_id,
+    em.first_name,
+    de.department_name
+FROM
+    employees   em,
+    departments de
+WHERE
+    em.department_id = de.department_id;
+    
+-- left outer join 으로 작성 -> 107건 null 포함
+SELECT
+    em.department_id,
+    em.first_name,
+    de.department_name
+FROM
+    employees   em
+    LEFT OUTER JOIN departments de ON em.department_id = de.department_id;
+
+-- OUTER Join 오라클 표현법 -> 107건 null 포함
+SELECT
+    em.first_name,
+    de.department_name
+FROM
+    employees   em,
+    departments de
+WHERE
+    em.department_id = de.department_id (+); -- null 포함 107건
+
+-- right outer join 으로 작성 --> 122건  null 포함
+SELECT
+    em.department_id,
+    em.first_name,
+    de.department_name
+FROM
+    employees   em
+    RIGHT OUTER JOIN departments de ON em.department_id = de.department_id;
+    
+-- right join 오라클 --> 122건  null 포함
+SELECT
+    em.department_id,
+    em.first_name,
+    de.department_name
+FROM
+    employees   em,
+    departments de
+WHERE
+    em.department_id (+) = de.department_id;
+
+--right join --> left join
+SELECT
+    e.first_name,
+    e.department_id,
+    d.department_name,
+    d.department_id
+FROM
+    employees   e RIGHT OUTER JOIN departments d
+    ON e.department_id = d.department_id;
+
+
+SELECT
+    e.first_name,
+    e.department_id,
+    d.department_name,
+    d.department_id
+FROM
+    departments d LEFT OUTER JOIN employees e 
+    ON e.department_id = d.department_id;
+
+
+-- ■ full outer join
+--full outer join
+SELECT
+    e.first_name,
+    e.department_id,
+    d.department_name,
+    d.department_id
+FROM
+    employees   e FULL OUTER JOIN departments d
+    ON e.department_id = d.department_id;
+
+/* ■ SELF JOIN
+자기자신과 Join
+Alias를 사용할 수 밖에 없음*/
+
+--*Self Join
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.salary,
+    e.phone_number,
+    e.manager_id,
+    m.employee_id,
+    m.first_name managername,
+    m.phone_number
+FROM
+    employees e,
+    employees m
+WHERE
+    e.manager_id = m.employee_id;
+
     
