@@ -294,7 +294,29 @@ WHERE
 
 /*
 문제9.
-각 사원(employee)에 대해서 사번(employee_id), 이름(first_name), 부서명
-(department_name), 매니저(manager)의 이름(first_name)을 조회하세요.
+각 사원(employee)에 대해서 
+사번(employee_id), 이름(first_name), 부서명(department_name), 매니저(manager)의 이름(first_name)을 조회하세요.
 부서가 없는 직원(Kimberely)도 표시합니다.
 (106명)*/
+
+-- ■ 처리방법
+-- from : employees
+-- WHERE : 테이블 self join 연결
+-- GROUP BY : 
+-- having :
+-- SELECT / 출력 : 사원의 사번, 이름(풀네임), 업무아이디, 시작일, 종료일을 출력
+-- ORDER BY / 정렬 : 
+
+SELECT
+    emp.employee_id     "사원",
+    emp.first_name      "이름",
+    dep.department_name "부서명",
+    man.first_name      "매니저의 이릅"
+FROM
+    employees   emp,
+    employees   man,
+    departments dep
+WHERE
+        emp.manager_id = man.employee_id
+    AND emp.department_id = dep.department_id (+);
+    
