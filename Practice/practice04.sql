@@ -5,6 +5,29 @@
 평균 급여보다 적은 급여을 받는 직원은 몇명인지 구하시요.
 (56건)*/
 
+--1) 평균 급여는?
+
+SELECT
+    -- AVG(salary)  --> 6462
+    round(AVG(salary), 0)
+FROM
+    employees;
+
+--2) 평균 급여보다 적은 급여를 받는 직원은 몇명?
+
+SELECT
+    first_name,
+    salary
+FROM
+    employees
+WHERE
+    salary < (
+                SELECT
+                    --round(AVG(salary), 0)
+                    AVG(salary)
+                FROM
+                    employees
+            );
 
 /*
 문제2.
@@ -12,6 +35,9 @@
 직원번호(employee_id), 이름(first_name), 급여(salary), 평균급여, 최대급여를 급여의 오름차
 순으로 정렬하여 출력하세요
 (51건)*/
+
+
+
 
 
 /*
