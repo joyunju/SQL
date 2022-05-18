@@ -67,8 +67,6 @@ ORDER BY
     salary ASC;
 
 
-
-
 /*
 문제3.
 직원중 Steven(first_name) king(last_name)이 소속된 부서(departments)가 있는 곳의 주소
@@ -76,6 +74,49 @@ ORDER BY
 도시아이디(location_id), 거리명(street_address), 우편번호(postal_code), 도시명(city), 주
 (state_province), 나라아이디(country_id) 를 출력하세요
 (1건)*/
+
+-- 출력 확인
+SELECT
+    *
+FROM
+    locations;
+--
+SELECT
+    first_name,
+    last_name
+FROM
+    employees
+WHERE
+        first_name = 'Steven'
+    AND last_name = 'King';
+    
+-- 
+SELECT
+    lo.location_id "도시아이디",
+    lo.street_address "거리명",
+    lo.postal_code "우편번호",
+    lo.city "도시명",
+    lo.state_province "주",
+    lo.country_id "나라아이디",
+    em.first_name || ' ' || last_name AS full_name
+FROM
+    locations   lo,
+    departments de,
+    employees   em
+WHERE
+        lo.location_id = de.location_id
+    AND de.department_id = em.department_id
+    AND ( first_name, last_name ) IN (
+                                        SELECT
+                                            first_name, last_name
+                                        FROM
+                                            employees
+                                        WHERE
+                                                first_name = 'Steven'
+                                            AND last_name = 'King'
+                                    );
+
+
 
 
 /*
