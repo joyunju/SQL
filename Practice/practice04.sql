@@ -118,12 +118,41 @@ WHERE
 
 
 
-
 /*
 문제4.
-job_id 가 'ST_MAN' 인 직원의 급여보다 작은 직원의 사번,이름,급여를 급여의 내림차순으로
-출력하세요 -ANY연산자 사용
+job_id 가 'ST_MAN' 인 직원의 급여보다 작은
+직원의 사번,이름,급여를
+급여의 내림차순으로 출력하세요 --desc
+-ANY연산자 사용
 (74건)*/
+
+-- job_id 가 'ST_MAN' 인 직원의 급여 : 5800-8200
+SELECT
+    job_id,
+    salary
+FROM
+    employees
+WHERE
+    job_id = 'ST_MAN';
+
+-- ANY연산자 사용
+SELECT
+    employee_id  "직원의 사번",
+    first_name || ' ' || last_name AS 이름,
+    salary "급여"
+FROM
+    employees
+WHERE
+    salary < ANY ( -- job_id 가 'ST_MAN' 인 직원의 급여
+                    SELECT
+                        salary
+                    FROM
+                        employees
+                    WHERE
+                        job_id = 'ST_MAN'
+                )
+ORDER BY salary DESC;
+
 
 
 /*
