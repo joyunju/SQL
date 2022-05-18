@@ -32,10 +32,39 @@ WHERE
 /*
 문제2.
 평균급여 이상, 최대급여 이하의 월급을 받는 사원의
-직원번호(employee_id), 이름(first_name), 급여(salary), 평균급여, 최대급여를 급여의 오름차
-순으로 정렬하여 출력하세요
+직원번호(employee_id), 이름(first_name), 급여(salary), 평균급여, 최대급여를
+급여의 오름차순으로 정렬하여 출력하세요
 (51건)*/
 
+-- 1) 평균급여, 최대급여
+SELECT
+    round(AVG(salary), 0) "평균급여",  -- 6462
+    MAX(salary)           "최대급여"   -- 24000
+FROM
+    employees;
+    
+-- 2)급여의 오름차순으로 정렬하여 출력 : ASC
+SELECT
+    employee_id "직원번호",
+    first_name  "이름",
+    salary      "급여"
+FROM
+    employees
+WHERE   
+        salary >= ( -- 평균급여 이상
+            SELECT
+                AVG(salary)
+            FROM
+                employees
+        )
+    AND salary <= ( -- 최대급여 이하
+        SELECT
+            MAX(salary)
+        FROM
+            employees
+    )
+ORDER BY
+    salary ASC;
 
 
 
