@@ -329,6 +329,224 @@ GROUP BY
     department_id;
 
 
+/* ■ rownum
+: 질의의 결과에 가상으로 부여되는 Oracle의 가상(Pseudo)의 Column (일렬번호)
+: 테이블에 가상으로 행 번호 부여해주는 역할 */
 
+-- 급여를 가장 많이 받는 5명의 직원의 이름을 출력하시오
+-- 급여순으로 정렬
+-- 1-5등만 출력
+
+-- ROWNUM은 order by로 정렬시 rownum이 섞인다.
+SELECT
+    ROWNUM, -- 행 번호 부여
+    employee_id,
+    first_name,
+    salary
+FROM
+    employees
+ORDER BY
+    salary DESC;
+    
+    
+-- ot라는 정렬된 테이블을 생성
+(SELECT
+    employee_id,
+    first_name,
+    salary
+FROM
+    employees
+ORDER BY
+    salary DESC ) ot;    
+
+-- ot 테이블을 사용해 출력    
+SELECT
+    ROWNUM,
+    ot.employee_id,
+    ot.first_name,
+    ot.salary
+FROM
+    (
+        SELECT
+            employee_id,
+            first_name,
+            salary
+        FROM
+            employees
+        ORDER BY
+            salary DESC
+    ) ot
+;
+    
+-- rownum 생성후에 where절 실행
+SELECT
+    ROWNUM,
+    ot.employee_id,
+    ot.first_name,
+    ot.salary
+    -- ot.phone_number -- ot 테이블에 없어서 사용 불가
+FROM
+    (
+        SELECT
+            employee_id,
+            first_name,
+            salary
+        FROM
+            employees
+        ORDER BY
+            salary DESC
+    ) ot
+WHERE
+        ROWNUM >= 1
+    AND ROWNUM <= 5;
+    
+-- 테이블 결과가 없는 이유?
+-- : where 조건식에 ROWNUM이 해당할 수 없어서 
+-- ROWNUM은 계속 번호가 1번이 부여되서 그 해당 열이 버려지고 그 다음 줄이 와도 또 1번 부여되니까 
+SELECT
+    ROWNUM,
+    ot.employee_id,
+    ot.first_name,
+    ot.salary
+FROM
+    (
+        SELECT
+            employee_id,
+            first_name,
+            salary
+        FROM
+            employees
+        ORDER BY
+            salary DESC
+    ) ot
+WHERE
+        ROWNUM >= 2
+    AND ROWNUM <= 3;
+    
+-- WHERE ROWNUM 번호를 1부터 시작이 아닌 다른 번호로 시작하게 하려면?
+-- 방법 : 처음부터 시작할 때 정렬이 되어있으면서 ROWNUM도 생성되어 있는 테이블로 돌리기
+
+/*
+1) 정렬+ ROWNUM시킨 ort 테이블 생성 후, 
+where절 실행 rn >= 1 AND rn <= 5;
+*/
+
+SELECT
+    ort.rn,
+    ort.employee_id,
+    ort.first_name,
+    ort.salary
+FROM
+    ( --rownum 생성 : (조건절 해결)
+        SELECT
+            ROWNUM rn,
+            ot.employee_id,
+            ot.first_name,
+            ot.salary
+        FROM
+            ( -- 정렬시킨 ot 테이블 생성 : (order 해결)
+                SELECT
+                    employee_id,
+                    first_name,
+                    salary
+                FROM
+                    employees
+                ORDER BY
+                    salary DESC
+            ) ot
+    ) ort  -- >> 정렬+ ROWNUM시킨 ort 테이블 생성
+WHERE
+        rn >= 1
+    AND rn <= 5;
+
+/*
+2) 정렬+ ROWNUM시킨 ort 테이블 생성 후, 
+where절 실행 rn >= 11 AND rn <= 20;
+*/
+SELECT
+    ort.rn,
+    ort.employee_id,
+    ort.first_name,
+    ort.salary
+FROM
+    ( --rownum 생성 : (조건절 해결)
+        SELECT
+            ROWNUM rn,
+            ot.employee_id,
+            ot.first_name,
+            ot.salary
+        FROM
+            ( -- 정렬시킨 ot 테이블 생성 : (order 해결)
+                SELECT
+                    employee_id,
+                    first_name,
+                    salary
+                FROM
+                    employees
+                ORDER BY
+                    salary DESC
+            ) ot
+    ) ort  -- >> 정렬+ ROWNUM시킨 ort 테이블 생성
+WHERE
+        rn >= 11
+    AND rn <= 20;
+
+/*
+rownum [예제]
+07년에 입사한 직원중 -- '07/12/31'까지
+급여가 많은 직원중 --  ORDER BY salary DESC
+3에서 7등의  -- WHERE rn >= 3 AND rn <= 7
+이름 급여 입사일은?  -- first_name, salary
+*/
+
+-- 1) 정렬시킨 ot 테이블 생성 : (order 해결)
+SELECT
+    employee_id,
+    first_name,
+    hire_date,
+    salary
+FROM
+    employees
+WHERE
+        hire_date <= '07/12/31'
+    AND hire_date >= '07/01/01'
+ORDER BY
+    salary DESC;
+
+-- 2)
+
+SELECT
+    ort.rn,
+    ort.employee_id,
+    ort.first_name,
+    ort.hire_date,
+    ort.salary
+FROM
+    ( --rownum 생성 : (조건절 해결)
+        SELECT
+            ROWNUM rn,
+            ot.employee_id,
+            ot.first_name,
+            ot.hire_date,
+            ot.salary
+        FROM
+            ( -- 정렬시킨 ot 테이블 생성 : (order 해결)
+                SELECT
+                    employee_id,
+                    first_name,
+                    hire_date,
+                    salary
+                FROM
+                    employees
+                WHERE
+                        hire_date <= '07/12/31'
+                    AND hire_date >= '07/01/01'
+                ORDER BY
+                    salary DESC
+            ) ot
+    ) ort  -- >> 정렬+ ROWNUM시킨 ort 테이블 생성
+WHERE
+        rn >= 3
+    AND rn <= 7;
 
 
