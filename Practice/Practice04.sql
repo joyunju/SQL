@@ -247,7 +247,53 @@ ORDER BY
 직원의 직원번호(employee_id), 이름(first_name)과 급여(salary)을 조회하세요
 (38건)*/
 
-
+-- 자신의 부서 평균 급여
+SELECT
+    department_id,
+    round(AVG(salary), 0) "평균 급여"
+FROM
+    employees
+GROUP BY
+    department_id;
+    
+-- 방법 : 조건절에서 비교     --결과 70건 .. 수정 중 
+SELECT
+    employee_id   "직원번호",
+    first_name    "이름",
+    salary        "급여",
+    department_id "부서아이디"
+FROM
+    employees
+WHERE
+    salary > ANY (
+        SELECT
+            round(AVG(salary), 0) "평균 급여"
+        FROM
+            employees
+        GROUP BY
+            department_id
+    );
+    
+-- 방법 : 테이블에서 조인
+SELECT
+    em.employee_id "직원번호",
+    em.first_name  "이름",
+    em.salary      "급여"
+    -- s.avgsalary "평균급여"
+FROM
+    employees em,
+                    ( -- 평균급여 테이블 s 
+                        SELECT
+                            department_id,
+                            AVG(salary) avgsalary
+                        FROM
+                            employees
+                        GROUP BY
+                            department_id
+                    )s
+WHERE
+        em.department_id = s.department_id
+    AND em.salary > s.avgsalary;
 
 /*
 문제8.
