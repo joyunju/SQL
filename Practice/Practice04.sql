@@ -296,6 +296,72 @@ WHERE
     AND em.salary > s.avgsalary;
 
 /*
-문제8.
-직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력
-하세요*/
+문제8. -- >> rownum 사용
+직원 입사일이     -- hire_date
+11번째에서 15번째의    -- WHERE rn >= 11 AND rn <= 15
+직원의 사번, 이름, 급여, 입사일을    -- employee_id, first_name, salary, hire_date
+입사일 순서로 출력하세요   -- hire_date asc;
+*/
+
+-- 1) 입사일 순서로 출력
+SELECT
+    employee_id "직원의 사번",
+    first_name "이름",
+    salary "급여",
+    hire_date "입사일"
+FROM
+    employees
+ORDER BY
+    hire_date ASC;
+
+-- 2) rownum 사용        
+SELECT
+    ROWNUM rn,
+    ot.employee_id,
+    ot.first_name,
+    ot.salary,
+    ot.hire_date
+FROM
+    ( -- 정렬시킨 ot 테이블 생성 : (order 해결)
+        SELECT
+            employee_id,
+            first_name,
+            salary,
+            hire_date
+        FROM
+            employees
+        ORDER BY
+            hire_date ASC
+    )ot ;
+
+-- 3) 직원 입사일이 11번째에서 15번째 조건 붙이시
+SELECT
+    ort.rn,
+    ort.employee_id "직원의 사번",
+    ort.first_name  "이름",
+    ort.salary      "급여",
+    ort.hire_date   "입사일"
+FROM
+    ( --rownum 생성 : (조건절 해결)
+        SELECT
+            ROWNUM rn,
+            ot.employee_id,
+            ot.first_name,
+            ot.salary,
+            ot.hire_date
+        FROM
+            ( -- 정렬시킨 ot 테이블 생성 : (order 해결)
+                SELECT
+                    employee_id,
+                    first_name,
+                    salary,
+                    hire_date
+                FROM
+                    employees
+                ORDER BY
+                    hire_date ASC
+            ) ot
+    ) ort  -- >> 정렬+ ROWNUM시킨 ort 테이블 생성
+WHERE
+        rn >= 11
+    AND rn <= 15;
