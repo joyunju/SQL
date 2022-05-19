@@ -216,15 +216,37 @@ ORDER BY
 
 /*문제6.
 각 업무(job) 별로 연봉(salary)의 총합을 구하고자 합니다.
-연봉 총합이 가장 높은 업무부터 업무명(job_title)과 연봉 총합을 조회하시오
+연봉 총합이 가장 높은 업무부터 - desc
+업무명(job_title)과 연봉 총합을 조회하시오
 (19건)*/
+
+SELECT
+    * FROM jobs;
+
+-- 조건) 각 업무(job)별로 연봉(salary)의 총합
+-- from : employees em, jobs jo
+-- 방법 : 조건절에서 비교
+SELECT
+    jo.job_title "업무명",
+    --jo.job_id,
+    SUM(em.salary) "연봉총합"
+FROM
+    jobs      jo,
+    employees em
+WHERE
+    em.job_id = jo.job_id
+GROUP BY
+    jo.job_title, jo.job_id
+ORDER BY
+    SUM(em.salary) DESC;
 
 
 /*
 문제7.
-자신의 부서 평균 급여보다 연봉(salary)이 많은 직원의 직원번호(employee_id), 이름
-(first_name)과 급여(salary)을 조회하세요
+자신의 부서 평균 급여보다 연봉(salary)이 많은
+직원의 직원번호(employee_id), 이름(first_name)과 급여(salary)을 조회하세요
 (38건)*/
+
 
 
 /*
