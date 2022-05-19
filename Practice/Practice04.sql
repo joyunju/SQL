@@ -157,12 +157,62 @@ ORDER BY salary DESC;
 
 /*
 문제5.
-각 부서별로 최고의 급여를 받는 사원의 직원번호(employee_id), 이름(first_name)과 급여
-(salary) 부서번호(department_id)를 조회하세요
-단 조회결과는 급여의 내림차순으로 정렬되어 나타나야 합니다.
+각 부서별로 최고의 급여를 받는 사원의
+직원번호(employee_id), 이름(first_name)과 급여(salary) 부서번호(department_id)를 조회하세요
+※ 단 조회결과는 급여의 내림차순으로 정렬되어 나타나야 합니다. -DESC
 조건절비교, 테이블조인 2가지 방법으로 작성하세요
 (11건)*/
 
+-- 조건) 각 부서별 최고 급여
+SELECT
+    department_id "부서번호",
+    MAX(salary)   "최고급여"
+FROM
+    employees
+GROUP BY
+    department_id;
+    
+-- 1) 조건절비교 방법    
+SELECT
+    employee_id   "직원번호",
+    first_name    "이름",
+    salary        "급여",
+    department_id "부서번호"
+FROM
+    employees
+WHERE
+    ( department_id, salary ) IN (
+                                    SELECT
+                                        department_id, MAX(salary)
+                                    FROM
+                                        employees
+                                    GROUP BY
+                                        department_id
+                                )
+order by salary desc;
+
+-- 2) 테이블조인
+SELECT
+    em.employee_id   "직원번호",
+    em.first_name    "이름",
+    em.salary        "급여",
+    em.department_id "부서번호"
+FROM
+    employees em,
+                    ( -- s 테이블 생성
+                        SELECT
+                            department_id,
+                            MAX(salary) maxsalary
+                        FROM
+                            employees
+                        GROUP BY
+                            department_id
+                    ) s
+WHERE
+        em.department_id = s.department_id
+    AND em.salary = s.maxsalary
+ORDER BY
+    salary DESC;
 
 /*문제6.
 각 업무(job) 별로 연봉(salary)의 총합을 구하고자 합니다.
