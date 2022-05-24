@@ -45,6 +45,45 @@
 사번, 이름, 부서명, 급여, 입사일을 입사일 순서로 출력하세요
 */
 
+SELECT
+    rn,
+    employee_id "직원의사번",
+    first_name "이름",
+    department_name "부서명",
+    salary "급여",
+    hire_date "입사일"
+FROM
+    (
+        SELECT
+            ROWNUM rn,
+            employee_id,
+            first_name,
+            department_name,
+            salary,
+            hire_date
+        FROM
+            (
+                SELECT
+                    employee_id,
+                    first_name,
+                    department_name,
+                    salary,
+                    hire_date
+                FROM
+                    employees   em,
+                    departments de
+                WHERE
+                        em.department_id = de.department_id
+                    AND hire_date >= '2005/01/01'
+                ORDER BY
+                    hire_date ASC
+            )
+    )
+WHERE
+        rn >= 11
+    AND rn <= 20;
+
+
 /*
 문제6.
 가장 늦게 입사한 직원의 이름(first_name last_name)과 연봉(salary)과 근무하는 부서 이름
